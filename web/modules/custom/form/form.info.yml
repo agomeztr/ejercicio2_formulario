@@ -1,0 +1,5 @@
+name: Form
+description: "Doing a form in Durpal 11."
+type: module
+package: custom
+core_version_requirement: ^10 || ^11

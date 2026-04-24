@@ -1,0 +1,7 @@
+pokedex.main:
+  path: '/form'
+  defaults:
+    _controller: '\Drupal\form\Controller\FormController::content'
+    _title: 'Form'
+  requirements:
+    _permission: 'access content'
