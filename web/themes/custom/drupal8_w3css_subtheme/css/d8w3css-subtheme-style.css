@@ -1,0 +1,9 @@
+#block-drupal8-w3css-subtheme-site-branding img{
+    width: 150px;
+}
+
+.site-name-slogan a {
+    margin-top: 25px;
+    margin-left: -25px;
+    width: auto;
+}

@@ -8,28 +8,36 @@ class FormController extends ControllerBase {
     //Create the content elements
     return [
       '#markup' => '
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
             <form>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">Well never share your email with anyone else.</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+              <div class="mb-2">
+                <label for="title" class="form-label" aria-label="Title">Título *</label>
+                <input type="text" class="form-control" id="title" aria-describedby="title">
+              </div>
+              <div class="mb-2">
+                <label for="description" class="form-label" aria-label="Description">Descripción *</label>
+                <textarea id="description" name="description" rows="4" cols="50"></textarea>
+              </div>
+              <div class="mb-2">
+                <label for="email" class="form-label" aria-label="Email">Correo eletrónico *</label>
+                <input type="email" class="form-control" id="email" aria-describedby="email">
+              </div>
+              <div class="mb-2">
+                <label for="category" class="form-label" aria-label="Category">Categoría *</label>
+                <select name="category" id="category"></select>
+              </div>
+              <div class="mb-2">
+                <label for="priority" class="form-label" aria-label="priority">Prioridad *</label>
+                <div id="priority"></div>
+              </div>
+              <button type="submit" class="btn btn-primary" aria-label="Send form">Enviar</button>
+            </form>
         ',
         '#attached' => [
             'library' => 'form/form',
         ],
         '#allowed_tags' => 
-            array_merge(Xss::getHtmlTagList(), ['button'])
+            array_merge(Xss::getHtmlTagList(), ['button', 'form', 'div', 'label', 'input', 'select', 'textarea'])
     ];
   }
 }
