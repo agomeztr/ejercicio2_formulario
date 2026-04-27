@@ -8,7 +8,11 @@ class FormController extends ControllerBase {
     //Create the content elements
     return [
       '#markup' => '
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+            <div id="message" class="hidden">
+                <button id="cerrarMensaje">X</button>
+                <i id="icon"></i>
+                <p id="text-message"></p>
+            </div>
             <form>
               <div class="mb-2">
                 <label for="title" class="form-label" aria-label="Title">Título *</label>
@@ -30,7 +34,7 @@ class FormController extends ControllerBase {
                 <label for="priority" class="form-label" aria-label="priority">Prioridad *</label>
                 <div id="priority"></div>
               </div>
-              <button type="submit" class="btn btn-primary" aria-label="Send form">Enviar</button>
+              <button type="submit" class="btn btn-primary" aria-label="Send form" id="send">Enviar</button>
             </form>
         ',
         '#attached' => [

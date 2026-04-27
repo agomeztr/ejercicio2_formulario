@@ -7,3 +7,71 @@
     margin-left: -25px;
     width: auto;
 }
+
+#message{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.2rem 1.5 rem;
+    border-radius: 1rem;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1.5rem;
+    /*success
+    background: linear-gradient(135deg, #1f9d74, #168a64);
+    color: #d1ffe9;
+    */
+}
+
+.div-error{
+    background: linear-gradient(135deg, #8b2c2c, #6e1f1f);
+    color: #ffdede;
+}
+
+#message i{
+    font-size: 1.5rem;
+    /*
+    success
+    color: #a7ffda
+    */
+    background: rgba(255, 255, 255, 0.15);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    opacity: 1;
+}
+
+.icon-error{
+    color: #ffb3b3
+}
+
+#message p{
+    margin: 0;
+    font-weight: 500;
+}
+
+#message button{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    /*
+    success
+    color: #d1ffe9
+    */
+}
+
+.button-error{
+    color: #ffdede
+}
+
+.hidden{
+    opacity: 0;
+}
