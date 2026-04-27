@@ -1,75 +1,88 @@
-document.addEventListener("DOMContentLoaded", () => {
+(function (Drupal, once) {
 
-    //get the form elements from the main page
-    //title
-    let title = document.getElementById('title');
-    //description
-    let description = document.getElementById('description');
-    //email
-    let email = document.getElementById('email');
-    
-    //array with categories
-    let nameCategories = ['Música', 'Matemáticas', 'Lengua', 'Historia'];
-    //get the select from the main page
-    let select = document.getElementById('category');
-    //foreach to print the options in the select
-    nameCategories.forEach(c => {
-        //create the element option 
-        let option = document.createElement('option');
-        option.value = c;
-        option.textContent = c;
-        select.appendChild(option);
-    })
+  Drupal.behaviors.customForm = {
+    attach: function (context, settings) {
 
-    //create a variable to save the priority selected
-    let selectedPriority = null;
+      const sendButton = once('send-button', context.querySelector('#send')).shift();
+      if (!sendButton) return;
 
-    //array with priority
-    let levelPriority = [1, 2, 3, 4, 5];
-    //get the div priority from the main page to print stars
-    let priority = document.getElementById('priority');
-    levelPriority.forEach(p => {
-        let button = document.createElement("button");
-        button.id  = p;
-        button.innerHTML = '<i class="bi bi-star"></i>';
+      const title = context.querySelector('#title');
+      const description = context.querySelector('#description');
+      const email = context.querySelector('#email');
+      const select = context.querySelector('#category');
+      const divMessage = context.querySelector('#message');
+      const buttonMessage = context.querySelector('#cerrarMensaje');
+      const iconMessage = context.querySelector('#icon');
+      const message = context.querySelector('#text-message');
 
-        button.addEventListener("click", function(e){
-            e.preventDefault();
-            selectedPriority = p;
-        });
+      let selectedPriority = null;
 
-        priority.appendChild(button);
-    })
+       //array with categories
+        let nameCategories = ['Música', 'Matemáticas', 'Lengua', 'Historia'];
+        //foreach to print the options in the select
+        nameCategories.forEach(c => {
+            //create the element option 
+            let option = document.createElement('option');
+            option.value = c;
+            option.textContent = c;
+            select.appendChild(option);
+        })
 
-    //get the send form button 
-    let sendButton = document.getElementById('send');
+        //array with priority
+        let levelPriority = [1, 2, 3, 4, 5];
+        //get the div priority from the main page to print stars
+        let priority = document.getElementById('priority');
+        levelPriority.forEach(p => {
+            let button = document.createElement("button");
+            button.id  = p;
+            button.innerHTML = '<i class="bi bi-star"></i>';
 
-    sendButton.addEventListener("click", function(event){
+            button.addEventListener("click", function(e){
+                e.preventDefault();
+                selectedPriority = p;
+            });
+
+            priority.appendChild(button);
+        })
+
+      sendButton.addEventListener("click", function (event) {
         event.preventDefault();
-        //regular expression to validate the from inputs
-        //title
+
         let titleRegex = /^(?=.{5,60}$)\S(?:.*\S)?$/;
-        //description
         let descriptionRegex = /^.{20,500}$/;
         let emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-        //get the elements from the text message to print the error or success message
-        //div
-        let divMessage = document.getElementById('message')
-        //button
-        let buttonMessage = document.getElementById('cerrarMensaje');
-        //icon
-        let iconMessage = document.getElementById('icon');
-        //text
-        let message = document.getElementById('text-message');
-        
-        if(!titleRegex.test(title.value) || !descriptionRegex.test(description.value) || !emailRegex.test(email.value) || 
-        select.value === "" || selectedPriority === null){
+        if (
+          !titleRegex.test(title.value) ||
+          !descriptionRegex.test(description.value) ||
+          !emailRegex.test(email.value) ||
+          select.value === "" ||
+          selectedPriority === null
+        ) {
+            console.log("entra en el primer if")
+            console.log(message);
+          if (message) {
             message.textContent = "Hay datos incorrectos o vacíos";
-            divMessage.className = "div-error";
-            buttonMessage.className = "button-error";
-            iconMessage.className = "icon-error"
+            divMessage.classList.remove("hidden");
+            divMessage.classList.add("div-error");
+            buttonMessage.classList.add("button-error");
+            iconMessage.classList.remove("bi-check-circle");
+            iconMessage.classList.add("bi-x-circle", "icon-error");
+            console.log("entra en mensaje")
+          }
+        } else {
+            if (message) {
+            message.textContent = "¡Tu pregunta ha sido enviada con éxito!";
+            divMessage.classList.remove("hidden");
+            divMessage.classList.add("div-success");
+            buttonMessage.classList.add("button-success");
+            iconMessage.classList.remove("bi-x-circle");
+            iconMessage.classList.add("bi-check-circle", "icon-success");
+          }
         }
-    })
+      });
 
-})
+    }
+  };
+
+})(Drupal, once);

@@ -13,14 +13,10 @@
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    padding: 1.2rem 1.5 rem;
+    padding: 1.2rem 1.5rem;
     border-radius: 1rem;
     box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
     margin-bottom: 1.5rem;
-    /*success
-    background: linear-gradient(135deg, #1f9d74, #168a64);
-    color: #d1ffe9;
-    */
 }
 
 .div-error{
@@ -28,12 +24,13 @@
     color: #ffdede;
 }
 
+.div-success{
+    background: linear-gradient(135deg, #1f9d74, #168a64);
+    color: #d1ffe9;
+}
+
 #message i{
     font-size: 1.5rem;
-    /*
-    success
-    color: #a7ffda
-    */
     background: rgba(255, 255, 255, 0.15);
     width: 2rem;
     height: 2rem;
@@ -42,6 +39,10 @@
     justify-content: center;
     border-radius: 50%;
     opacity: 1;
+}
+
+.icon-success{
+    color: #a7ffda
 }
 
 .icon-error{
@@ -62,16 +63,92 @@
     font-size: 1.2rem;
     cursor: pointer;
     opacity: 0.7;
-    /*
-    success
-    color: #d1ffe9
-    */
 }
 
 .button-error{
     color: #ffdede
 }
 
+.button-success{
+    color: #d1ffe9
+}
+
 .hidden{
     opacity: 0;
+}
+
+form {
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+form .mb-2 {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #1e3a8a; /* azul oscuro */
+}
+
+form input,
+form textarea,
+form select {
+  padding: 10px 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8fbff;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background-color: #ffffff;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+form select {
+  cursor: pointer;
+}
+
+form button[type="submit"] {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+form button[type="submit"]:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+}
+
+form button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: none;
 }

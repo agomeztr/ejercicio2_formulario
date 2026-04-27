@@ -10,7 +10,7 @@ class FormController extends ControllerBase {
       '#markup' => '
             <div id="message" class="hidden">
                 <button id="cerrarMensaje">X</button>
-                <i id="icon"></i>
+                <i id="icon" class="bi"></i>
                 <p id="text-message"></p>
             </div>
             <form>
@@ -41,7 +41,7 @@ class FormController extends ControllerBase {
             'library' => 'form/form',
         ],
         '#allowed_tags' => 
-            array_merge(Xss::getHtmlTagList(), ['button', 'form', 'div', 'label', 'input', 'select', 'textarea'])
+            array_merge(Xss::getHtmlTagList(), ['button', 'form', 'div', 'label', 'input', 'select', 'textarea', 'p', 'i'])
     ];
   }
 }
