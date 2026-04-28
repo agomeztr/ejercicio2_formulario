@@ -5,3 +5,11 @@ form.main:
     _title: 'Form'
   requirements:
     _custom_access: '\Drupal\form\Controller\FormController::access'
+
+form.submit:
+  path: '/form/submit'
+  defaults:
+    _controller: '\Drupal\form\Controller\FormController::submit'
+  methods: [POST]
+  requirements:
+    _user_is_logged_in: 'TRUE'

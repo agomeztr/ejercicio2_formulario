@@ -1,20 +1,76 @@
 <?php
+
 namespace Drupal\form\Controller;
+
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Database\Connection;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class FormController extends ControllerBase {
+class FormController extends ControllerBase
+{
 
-  public static function access(AccountInterface $account) {
+  public static function access(AccountInterface $account)
+  {
     if ($account->isAuthenticated()) {
       return AccessResult::allowed();
     }
     return AccessResult::forbidden('Debes iniciar sesión para poder realizar este formulario.');
   }
 
-  public function content() {
+  protected Connection $database;
+
+  public function __construct(Connection $database)
+  {
+    $this->database = $database;
+  }
+
+  public static function create(ContainerInterface $container)
+  {
+    return new static(
+      $container->get('database')
+    );
+  }
+
+  public function submit(Request $request)
+  {
+    $data = json_decode($request->getContent(), TRUE);
+
+    if (!$data) {
+      return new JsonResponse(['status' => 'error', 'message' => 'No data'], 400);
+    }
+
+    if (
+      empty($data['title']) ||
+      empty($data['description']) ||
+      empty($data['email']) ||
+      empty($data['category']) ||
+      empty($data['priority']) ||
+      !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
+    ) {
+      return new JsonResponse(['status' => 'error', 'message' => 'Datos inválidos'], 400);
+    }
+
+    $this->database->insert('requests')
+      ->fields([
+        'title' => strip_tags($data['title']),
+        'description' => strip_tags($data['description']),
+        'email' => $data['email'],
+        'category' => strip_tags($data['category']),
+        'priority' => (int) $data['priority'],
+        'created' => \Drupal::time()->getRequestTime(),
+      ])
+      ->execute();
+
+    return new JsonResponse(['status' => 'success']);
+  }
+
+  public function content()
+  {
     //Create the content elements
     return [
       '#markup' => '
@@ -47,13 +103,11 @@ class FormController extends ControllerBase {
               <button type="button" class="btn btn-primary" aria-label="Send form" id="send">Enviar</button>
             </form>
         ',
-        '#attached' => [
-            'library' => 'form/form',
-        ],
-        '#allowed_tags' => 
-            array_merge(Xss::getHtmlTagList(), ['button', 'form', 'div', 'label', 'input', 'select', 'textarea', 'p', 'i'])
+      '#attached' => [
+        'library' => 'form/form',
+      ],
+      '#allowed_tags' =>
+      array_merge(Xss::getHtmlTagList(), ['button', 'form', 'div', 'label', 'input', 'select', 'textarea', 'p', 'i'])
     ];
   }
 }
-
-?>
