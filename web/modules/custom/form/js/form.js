@@ -3,9 +3,10 @@
   Drupal.behaviors.customForm = {
     attach: function (context, settings) {
 
-      const sendButton = once('send-button', context.querySelector('#send')).shift();
-      if (!sendButton) return;
+      //get the send button
+      once('send-button', context.querySelectorAll('#send')).forEach(function (sendButton) {
 
+      //get the elements from the form
       const title = context.querySelector('#title');
       const description = context.querySelector('#description');
       const email = context.querySelector('#email');
@@ -15,6 +16,7 @@
       const iconMessage = context.querySelector('#icon');
       const message = context.querySelector('#text-message');
 
+      // a variable to get the selected priority
       let selectedPriority = null;
 
        //array with categories
@@ -31,27 +33,45 @@
         //array with priority
         let levelPriority = [1, 2, 3, 4, 5];
         //get the div priority from the main page to print stars
-        let priority = document.getElementById('priority');
+        let priority = context.querySelector('#priority');
         levelPriority.forEach(p => {
             let button = document.createElement("button");
-            button.id  = p;
+            button.type = "button";
+            button.dataset.value = p;
             button.innerHTML = '<i class="bi bi-star"></i>';
 
             button.addEventListener("click", function(e){
-                e.preventDefault();
                 selectedPriority = p;
+                //print the number os starts selected
+                const allStars = priority.querySelectorAll("button i");
+                allStars.forEach((star, index) => {
+                    if (index < p) {
+                        star.classList.remove("bi-star");
+                        star.classList.add("bi-star-fill");
+                    } else {
+                        star.classList.remove("bi-star-fill");
+                        star.classList.add("bi-star");
+                    }
+                });
+                validateForm();
             });
 
             priority.appendChild(button);
         })
 
-      sendButton.addEventListener("click", function (event) {
-        event.preventDefault();
+        //disable the send button
+        //sendButton.disabled = true;
 
+        //regular exprexion to validate inputs
         let titleRegex = /^(?=.{5,60}$)\S(?:.*\S)?$/;
-        let descriptionRegex = /^.{20,500}$/;
+        let descriptionRegex = /^[\s\S]{20,500}$/;
         let emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
+        //event into the send button
+      sendButton.addEventListener("click", function (event) {
+        //to avoid send the form without validate
+        event.preventDefault();
+        //if there is some dates null o incorrect
         if (
           !titleRegex.test(title.value) ||
           !descriptionRegex.test(description.value) ||
@@ -59,18 +79,17 @@
           select.value === "" ||
           selectedPriority === null
         ) {
-            console.log("entra en el primer if")
-            console.log(message);
+          //print the error message
           if (message) {
-            message.textContent = "Hay datos incorrectos o vacíos";
+            message.textContent = "Hay datos incorrectos y/o vacíos";
             divMessage.classList.remove("hidden");
             divMessage.classList.add("div-error");
             buttonMessage.classList.add("button-error");
             iconMessage.classList.remove("bi-check-circle");
             iconMessage.classList.add("bi-x-circle", "icon-error");
-            console.log("entra en mensaje")
           }
         } else {
+          //if there is nothing null or incorrect, the response is send correctely
             if (message) {
             message.textContent = "¡Tu pregunta ha sido enviada con éxito!";
             divMessage.classList.remove("hidden");
@@ -80,9 +99,42 @@
             iconMessage.classList.add("bi-check-circle", "icon-success");
           }
         }
+        title.value = "";
+        description.value = "";
+        email.value = "";
+        select.value = "";
+        selectedPriority = null;
+
+        // reset the star
+        const allStars = priority.querySelectorAll("button i");
+        allStars.forEach(star => {
+          star.classList.remove("bi-star-fill");
+          star.classList.add("bi-star");
+        });
       });
 
-    }
-  };
+      //function to validate the form
+      function validateForm() {
+        const isValid =
+          titleRegex.test(title.value) &&
+          descriptionRegex.test(description.value) &&
+          emailRegex.test(email.value) &&
+          select.value !== "" &&
+          selectedPriority !== null;
+        //sendButton.disabled = !isValid;
+      }
 
+      title.addEventListener("input", validateForm);
+      description.addEventListener("input", validateForm);
+      email.addEventListener("input", validateForm);
+      select.addEventListener("change", validateForm);
+
+      //event on the button of error-success message to close the message
+      buttonMessage.addEventListener("click", function(){
+        divMessage.classList.add("hidden");
+      })
+      validateForm();
+    })
+  }
+}
 })(Drupal, once);

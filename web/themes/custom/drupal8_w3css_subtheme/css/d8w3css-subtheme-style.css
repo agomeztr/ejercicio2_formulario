@@ -129,26 +129,58 @@ form select {
   cursor: pointer;
 }
 
-form button[type="submit"] {
+#send {
   margin-top: 10px;
   padding: 12px;
   border: none;
   border-radius: 8px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #ffffff;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  width: 100%;
 }
 
-form button[type="submit"]:hover {
+#send:hover {
   background: linear-gradient(135deg, #1d4ed8, #1e40af);
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
 }
 
-form button[type="submit"]:active {
+#send:active {
   transform: translateY(0);
   box-shadow: none;
+}
+
+#priority button {
+  background: transparent;
+  border: none;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  margin: 0rem 1.3rem;
+}
+
+#priority button:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+}
+
+#priority button:active {
+  transform: translateY(-1px);
+}
+
+#priority button:disabled{
+  opacity: 0.7;
+}
+
+#priority button i {
+  color: #D1BD06;
+  font-size: 2rem;
+  transition: transform 0.25s ease;
+}
+
+#priority button:hover i {
+  transform: scale(1.1);
 }

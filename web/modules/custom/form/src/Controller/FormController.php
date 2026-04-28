@@ -34,7 +34,7 @@ class FormController extends ControllerBase {
                 <label for="priority" class="form-label" aria-label="priority">Prioridad *</label>
                 <div id="priority"></div>
               </div>
-              <button type="submit" class="btn btn-primary" aria-label="Send form" id="send">Enviar</button>
+              <button type="button" class="btn btn-primary" aria-label="Send form" id="send">Enviar</button>
             </form>
         ',
         '#attached' => [
