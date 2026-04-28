@@ -91,7 +91,7 @@
         } else {
           //if there is nothing null or incorrect, the response is send correctely
             if (message) {
-            message.textContent = "¡Tu pregunta ha sido enviada con éxito!";
+            message.textContent = "¡Tu solicitud ha sido enviada con éxito!";
             divMessage.classList.remove("hidden");
             divMessage.classList.add("div-success");
             buttonMessage.classList.add("button-success");

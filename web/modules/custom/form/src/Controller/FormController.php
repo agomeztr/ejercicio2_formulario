@@ -2,8 +2,18 @@
 namespace Drupal\form\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Component\Utility\Xss;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 
 class FormController extends ControllerBase {
+
+  public static function access(AccountInterface $account) {
+    if ($account->isAuthenticated()) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden('Debes iniciar sesión para poder realizar este formulario.');
+  }
+
   public function content() {
     //Create the content elements
     return [
