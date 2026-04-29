@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\user\Entity\User;
 
 class FormController extends ControllerBase
 {
@@ -110,4 +111,67 @@ class FormController extends ControllerBase
       array_merge(Xss::getHtmlTagList(), ['button', 'form', 'div', 'label', 'input', 'select', 'textarea', 'p', 'i'])
     ];
   }
+
+  public function listAllRequests() {
+    return $this->buildTable();
+  }
+
+  public function listUserRequests() {
+
+    $uid = $this->currentUser()->id();
+    $user = User::load($uid);
+
+    if (!$user) {
+      throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
+    }
+
+    $email = $user->getEmail();
+
+    return $this->buildTable($email);
+  }
+
+  private function buildTable($email = NULL) {
+
+  $header = [
+    'id' => $this->t('ID'),
+    'title' => $this->t('Título'),
+    'email' => $this->t('Email'),
+    'category' => $this->t('Categoría'),
+    'priority' => $this->t('Prioridad'),
+    'created' => $this->t('Fecha'),
+  ];
+
+  $query = $this->database->select('requests', 'r')
+    ->fields('r')
+    ->orderBy('created', 'DESC');
+
+  if ($email) {
+    $query->condition('email', $email);
+  }
+
+  $results = $query->execute();
+
+  $rows = [];
+
+  foreach ($results as $record) {
+    $rows[] = [
+      'id' => $record->id,
+      'title' => $record->title,
+      'email' => $record->email,
+      'category' => $record->category,
+      'priority' => $record->priority,
+      'created' => \Drupal::service('date.formatter')
+        ->format($record->created, 'short'),
+    ];
+  }
+
+  return [
+    '#type' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+    '#empty' => $this->t('No hay solicitudes registradas.'),
+  ];
+}
+
+
 }

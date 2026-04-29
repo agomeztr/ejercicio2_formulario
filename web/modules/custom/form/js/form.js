@@ -4,6 +4,7 @@
       //get the send button
       once("send-button", context.querySelectorAll("#send")).forEach(
         function (sendButton) {
+          sendButton.disabled = true;
           //get the elements from the form
           const title = context.querySelector("#title");
           const description = context.querySelector("#description");
@@ -125,6 +126,7 @@
                       star.classList.remove("bi-star-fill");
                       star.classList.add("bi-star");
                     });
+                    validateForm();
                   } else {
                     message.textContent = "Error al guardar los datos.";
                     divMessage.classList.remove("hidden");
@@ -148,7 +150,7 @@
               emailRegex.test(email.value) &&
               select.value !== "" &&
               selectedPriority !== null;
-            //sendButton.disabled = !isValid;
+            sendButton.disabled = !isValid;
           }
 
           title.addEventListener("input", validateForm);

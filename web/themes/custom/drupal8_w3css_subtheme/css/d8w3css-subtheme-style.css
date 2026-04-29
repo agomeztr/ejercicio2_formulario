@@ -154,6 +154,11 @@ form select {
   box-shadow: none;
 }
 
+#send:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 #priority button {
   background: transparent;
   border: none;
@@ -171,13 +176,9 @@ form select {
   transform: translateY(-1px);
 }
 
-#priority button:disabled{
-  opacity: 0.7;
-}
-
 #priority button i {
   color: #D1BD06;
-  font-size: 2rem;
+  font-size: 1.8rem;
   transition: transform 0.25s ease;
 }
 

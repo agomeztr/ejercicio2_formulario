@@ -13,3 +13,19 @@ form.submit:
   methods: [POST]
   requirements:
     _user_is_logged_in: 'TRUE'
+
+form.requests_admin:
+  path: '/form/requests/all'
+  defaults:
+    _controller: '\Drupal\form\Controller\FormController::listAllRequests'
+    _title: 'Todas las solicitudes'
+  requirements:
+    _role: 'administrator'
+
+form.requests_user:
+  path: '/form/requests/my'
+  defaults:
+    _controller: '\Drupal\form\Controller\FormController::listUserRequests'
+    _title: 'Mis solicitudes'
+  requirements:
+    _user_is_logged_in: 'TRUE'
