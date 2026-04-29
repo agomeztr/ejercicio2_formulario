@@ -170,6 +170,10 @@ class FormController extends ControllerBase
     '#header' => $header,
     '#rows' => $rows,
     '#empty' => $this->t('No hay solicitudes registradas.'),
+    '#cache' => [
+      'max-age' => 0,
+      'contexts' => ['user'],
+    ],
   ];
 }
 
